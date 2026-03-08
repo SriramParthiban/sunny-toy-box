@@ -142,11 +142,11 @@ const Checkout = () => {
 
           {formData.paymentMethod === 'card' && (
             <div className="space-y-3 mt-4">
-              <div><Label>Card Number</Label><Input placeholder="1234 5678 9012 3456" value={formData.cardNumber} onChange={e => update('cardNumber', e.target.value.replace(/\D/g, '').slice(0, 16))} className="rounded-xl mt-1" /></div>
-              <div><Label>Name on Card</Label><Input value={formData.cardName} onChange={e => update('cardName', e.target.value)} className="rounded-xl mt-1" /></div>
+              <div><Label>Card Number</Label><Input placeholder="1234 5678 9012 3456" value={formData.cardNumber} onChange={e => update('cardNumber', e.target.value.replace(/[^0-9 ]/g, '').slice(0, 19))} className="rounded-xl mt-1" /></div>
+              <div><Label>Name on Card</Label><Input placeholder="Any name" value={formData.cardName} onChange={e => update('cardName', e.target.value)} className="rounded-xl mt-1" /></div>
               <div className="grid grid-cols-2 gap-3">
-                <div><Label>Expiry (MM/YY)</Label><Input placeholder="12/28" value={formData.cardExpiry} onChange={e => update('cardExpiry', e.target.value)} className="rounded-xl mt-1" /></div>
-                <div><Label>CVV</Label><Input type="password" placeholder="***" value={formData.cardCvv} onChange={e => update('cardCvv', e.target.value.slice(0, 3))} className="rounded-xl mt-1" /></div>
+                <div><Label>Expiry (MM/YY)</Label><Input placeholder="12/28" value={formData.cardExpiry} onChange={e => update('cardExpiry', e.target.value.slice(0, 5))} className="rounded-xl mt-1" /></div>
+                <div><Label>CVV</Label><Input placeholder="123" value={formData.cardCvv} onChange={e => update('cardCvv', e.target.value.replace(/\D/g, '').slice(0, 4))} className="rounded-xl mt-1" /></div>
               </div>
             </div>
           )}
