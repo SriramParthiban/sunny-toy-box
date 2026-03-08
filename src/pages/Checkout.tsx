@@ -61,11 +61,11 @@ const Checkout = () => {
   };
 
   const canProceed = () => {
-    if (step === 0) return formData.name && formData.email && formData.phone && formData.address1 && formData.city && formData.state && formData.pincode;
+    if (step === 0) return formData.name && formData.phone && formData.address1 && formData.city && formData.state && formData.pincode;
     if (step === 1) return true;
     if (step === 2) {
-      if (formData.paymentMethod === 'card') return formData.cardNumber.length >= 16 && formData.cardName && formData.cardExpiry && formData.cardCvv;
-      if (formData.paymentMethod === 'upi') return formData.upiId.includes('@');
+      if (formData.paymentMethod === 'card') return formData.cardNumber.length >= 4 && formData.cardExpiry;
+      if (formData.paymentMethod === 'upi') return formData.upiId.length >= 3;
       return true;
     }
     return true;
