@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, Truck, ShieldCheck, Gift, ChevronRight, Search, Package, CreditCard, RotateCcw } from 'lucide-react';
-import { products, popularSearches, themes } from '@/data/products';
+import { ArrowRight, Star, Truck, ShieldCheck, Gift, ChevronRight, Search, Package, CreditCard, RotateCcw, Users, Award } from 'lucide-react';
+import { products, popularSearches, themes, Product } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
+import QuickViewModal from '@/components/QuickViewModal';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -37,6 +38,7 @@ const Index = () => {
   const trending = products.filter(p => p.tags.includes('trending'));
   const bestsellers = products.filter(p => p.tags.includes('bestseller'));
   const deals = products.filter(p => p.discount >= 40);
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   return (
     <div className="pb-4">
@@ -111,6 +113,15 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Social Proof Bar */}
+      <section className="bg-muted/50 border-b">
+        <div className="container py-2.5 flex items-center justify-center gap-6 md:gap-10 text-xs font-bold">
+          <span className="flex items-center gap-1"><Users size={14} className="text-primary" /> 5000+ Happy Parents</span>
+          <span className="flex items-center gap-1"><Star size={14} className="fill-primary text-primary" /> 4.7 Average Rating</span>
+          <span className="flex items-center gap-1 hidden sm:flex"><Award size={14} className="text-success" /> 100% Original Toys</span>
+        </div>
+      </section>
+
       {/* Popular Searches */}
       <section className="container py-4">
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
@@ -148,7 +159,7 @@ const Index = () => {
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           {themes.map(t => (
             <Link key={t.name} to={`/products?search=${encodeURIComponent(t.name)}`}
-              className="flex flex-col items-center gap-1 bg-card border rounded-2xl p-4 min-w-[90px] hover:border-primary hover:shadow-md transition-all">
+              className="flex flex-col items-center gap-1 bg-card border border-border/50 rounded-2xl p-4 min-w-[90px] hover:border-primary hover:shadow-md transition-all">
               <span className="text-2xl">{t.emoji}</span>
               <span className="text-xs font-bold whitespace-nowrap">{t.name}</span>
             </Link>
@@ -167,7 +178,7 @@ const Index = () => {
               </Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {deals.slice(0, 4).map(p => <ProductCard key={p.id} product={p} />)}
+              {deals.slice(0, 4).map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
             </div>
           </div>
         </section>
@@ -182,7 +193,7 @@ const Index = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {featured.slice(0, 4).map(p => <ProductCard key={p.id} product={p} />)}
+          {featured.slice(0, 4).map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
         </div>
       </section>
 
@@ -193,7 +204,7 @@ const Index = () => {
           <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
             {topBrands.map(b => (
               <Link key={b.name} to={`/products?search=${encodeURIComponent(b.name)}`}
-                className="flex flex-col items-center gap-1 bg-card rounded-xl p-3 hover:shadow-md transition-shadow">
+                className="flex flex-col items-center gap-1 bg-card rounded-xl p-3 hover:shadow-md transition-shadow border border-border/30">
                 <span className="text-2xl">{b.emoji}</span>
                 <span className="text-[10px] md:text-xs font-bold text-center">{b.name}</span>
               </Link>
@@ -229,7 +240,7 @@ const Index = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {trending.slice(0, 4).map(p => <ProductCard key={p.id} product={p} />)}
+          {trending.slice(0, 4).map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
         </div>
       </section>
 
@@ -242,7 +253,7 @@ const Index = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {bestsellers.slice(0, 4).map(p => <ProductCard key={p.id} product={p} />)}
+          {bestsellers.slice(0, 4).map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
         </div>
       </section>
 
@@ -253,14 +264,19 @@ const Index = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {testimonials.map((t, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-2xl p-5 shadow-sm">
+                className="bg-card rounded-2xl p-5 shadow-sm border border-border/30">
                 <div className="flex gap-0.5 mb-2">
                   {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={12} className="fill-primary text-primary" />)}
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">"{t.text}"</p>
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="font-bold text-sm">{t.name}</span>
-                  <span className="text-xs text-muted-foreground">{t.city}</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center text-[10px] font-black text-primary">
+                      {t.name.charAt(0)}
+                    </div>
+                    <span className="font-bold text-sm">{t.name}</span>
+                  </div>
+                  <span className="text-[10px] text-success font-bold">✓ Verified</span>
                 </div>
               </motion.div>
             ))}
@@ -280,6 +296,9 @@ const Index = () => {
           <p className="text-[10px] text-primary-foreground/50 mt-2">Join 10,000+ happy parents. Unsubscribe anytime.</p>
         </div>
       </section>
+
+      {/* Quick View */}
+      <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
     </div>
   );
 };
