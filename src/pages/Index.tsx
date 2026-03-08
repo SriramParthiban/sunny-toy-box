@@ -52,7 +52,7 @@ const Index = () => {
                 Where Every Toy <br />Sparks <span className="text-card">Joy! ✨</span>
               </h1>
               <p className="mt-4 text-primary-foreground/80 text-sm md:text-lg max-w-md">
-                Discover 35+ amazing toys for kids aged 0-18. Safe, fun, and educational toys delivered to your doorstep! Up to 45% OFF.
+                Discover 100+ amazing toys for kids aged 0-18. Safe, fun, and educational toys delivered to your doorstep! Up to 45% OFF.
               </p>
               <div className="flex gap-3 mt-6">
                 <Link to="/products">
