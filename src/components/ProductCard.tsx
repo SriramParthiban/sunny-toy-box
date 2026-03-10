@@ -43,7 +43,8 @@ const ProductCard = ({ product, onQuickView }: ProductCardProps) => {
 
   return (
     <motion.div
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -6, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.2 }}
       className="bg-card rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group relative border border-border/50"
     >

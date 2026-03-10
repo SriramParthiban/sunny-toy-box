@@ -388,12 +388,23 @@ const ProductDetail = () => {
         </AnimatePresence>
       </section>
 
+      {/* Bundle Offers */}
+      <BundleOffer product={product} />
+
+      {/* Trust Badges */}
+      <div className="mt-8">
+        <TrustBadges />
+      </div>
+
       {/* Recommendation sections */}
       <RecommendationRow title="Similar Toys 🎁" products={related} onQuickView={setQuickViewProduct} />
       <RecommendationRow title={`Recommended for ${product.ageRange} 👶`} products={sameAge} onQuickView={setQuickViewProduct} />
       {recentlyViewed.length > 0 && (
         <RecommendationRow title="Recently Viewed 👀" products={recentlyViewed} onQuickView={setQuickViewProduct} />
       )}
+
+      {/* Sticky Mobile Cart */}
+      <StickyMobileCart product={product} quantity={quantity} />
 
       <QuickViewModal product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
     </div>

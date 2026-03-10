@@ -5,14 +5,16 @@ import { ArrowRight, Star, Truck, ShieldCheck, Gift, ChevronRight, Search, Packa
 import { products, popularSearches, themes, Product } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
+import TrustBadges from '@/components/TrustBadges';
+import RecentlyViewed from '@/components/RecentlyViewed';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 const ageCategories = [
-  { range: '0-5', label: '0-5 Years', emoji: '🍼', desc: 'Babies & Toddlers', color: 'from-pink-300 to-pink-400' },
-  { range: '5-10', label: '5-10 Years', emoji: '🎮', desc: 'Kids', color: 'from-blue-300 to-blue-400' },
-  { range: '10-15', label: '10-15 Years', emoji: '🔬', desc: 'Pre-teens', color: 'from-green-300 to-green-400' },
-  { range: '15-18', label: '15-18 Years', emoji: '🎯', desc: 'Teens', color: 'from-purple-300 to-purple-400' },
+  { range: '0-5', label: '0-5 Years', emoji: '🍼', desc: 'Babies & Toddlers', color: 'from-pink-300 to-pink-400', illustration: '🧸🎀' },
+  { range: '5-10', label: '5-10 Years', emoji: '🎮', desc: 'Kids', color: 'from-blue-300 to-blue-400', illustration: '🚀🎯' },
+  { range: '10-15', label: '10-15 Years', emoji: '🔬', desc: 'Pre-teens', color: 'from-green-300 to-green-400', illustration: '🤖🔧' },
+  { range: '15-18', label: '15-18 Years', emoji: '🎯', desc: 'Teens', color: 'from-purple-300 to-purple-400', illustration: '🎸🎲' },
 ];
 
 const topBrands = [
@@ -33,6 +35,15 @@ const testimonials = [
   { name: 'Vikram R.', text: 'Amazing RC car and super fast delivery. Customer service is top-notch. Will shop again!', rating: 5, city: 'Chennai' },
 ];
 
+const funBanners = [
+  { text: '🎁 Perfect Birthday Gift', bg: 'bg-primary/10' },
+  { text: '🧠 Learning Toys', bg: 'bg-info/10' },
+  { text: '🚀 Space Adventures', bg: 'bg-secondary/10' },
+  { text: '🦖 Dino Favorites', bg: 'bg-success/10' },
+  { text: '🎨 Creative Play', bg: 'bg-destructive/10' },
+  { text: '🏎️ Racing Thrills', bg: 'bg-primary/10' },
+];
+
 const Index = () => {
   const featured = products.filter(p => p.tags.includes('featured'));
   const trending = products.filter(p => p.tags.includes('trending'));
@@ -47,7 +58,7 @@ const Index = () => {
         <div className="container py-10 md:py-20 relative z-10">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-block bg-card/20 text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-4">
+              <span className="inline-block bg-card/20 text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-4 animate-sparkle">
                 🎈 India's #1 Toy Store
               </span>
               <h1 className="font-display font-black text-3xl md:text-5xl lg:text-6xl text-primary-foreground leading-tight">
@@ -76,15 +87,32 @@ const Index = () => {
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.2 }}
               className="hidden md:flex justify-center text-8xl gap-4">
-              <span className="animate-bounce-gentle">🧸</span>
-              <span className="animate-bounce-gentle" style={{ animationDelay: '0.3s' }}>🎮</span>
-              <span className="animate-bounce-gentle" style={{ animationDelay: '0.6s' }}>🎨</span>
-              <span className="animate-bounce-gentle" style={{ animationDelay: '0.9s' }}>🤖</span>
+              <span className="animate-float">🧸</span>
+              <span className="animate-float" style={{ animationDelay: '0.5s' }}>🎮</span>
+              <span className="animate-float" style={{ animationDelay: '1s' }}>🎨</span>
+              <span className="animate-float" style={{ animationDelay: '1.5s' }}>🤖</span>
             </motion.div>
           </div>
         </div>
         <div className="absolute top-0 right-0 w-72 h-72 bg-card/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-card/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+      </section>
+
+      {/* Fun Tags Ticker */}
+      <section className="bg-card border-b overflow-hidden">
+        <div className="flex gap-3 py-2.5 px-4 overflow-x-auto scrollbar-hide">
+          {funBanners.map((b, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.08 }}
+              className={`${b.bg} text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap`}
+            >
+              {b.text}
+            </motion.span>
+          ))}
+        </div>
       </section>
 
       {/* Trust Badges */}
@@ -138,15 +166,17 @@ const Index = () => {
 
       {/* Age Categories */}
       <section className="container py-6">
-        <h2 className="font-display font-black text-2xl md:text-3xl text-center mb-6">Shop by Age 🎂</h2>
+        <h2 className="font-display font-black text-2xl md:text-3xl text-center mb-2">Shop by Age 🎂</h2>
+        <p className="text-center text-sm text-muted-foreground mb-6">Find the perfect toy for every age!</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {ageCategories.map((cat, i) => (
             <motion.div key={cat.range} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
               <Link to={`/products?age=${cat.range}`}
-                className={`block bg-gradient-to-br ${cat.color} rounded-2xl p-5 md:p-6 text-center hover:scale-105 transition-transform shadow-md`}>
-                <div className="text-4xl md:text-5xl mb-2">{cat.emoji}</div>
+                className={`block bg-gradient-to-br ${cat.color} rounded-2xl p-5 md:p-6 text-center hover:scale-105 hover:shadow-lg transition-all duration-300 shadow-md group`}>
+                <div className="text-4xl md:text-5xl mb-2 group-hover:animate-wiggle">{cat.emoji}</div>
                 <h3 className="font-display font-bold text-base md:text-lg">{cat.label}</h3>
                 <p className="text-xs opacity-80 mt-1">{cat.desc}</p>
+                <div className="text-lg mt-1 opacity-60">{cat.illustration}</div>
               </Link>
             </motion.div>
           ))}
@@ -157,13 +187,26 @@ const Index = () => {
       <section className="container py-6">
         <h2 className="font-display font-black text-xl md:text-2xl mb-4">Shop by Theme 🎭</h2>
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-          {themes.map(t => (
-            <Link key={t.name} to={`/products?search=${encodeURIComponent(t.name)}`}
-              className="flex flex-col items-center gap-1 bg-card border border-border/50 rounded-2xl p-4 min-w-[90px] hover:border-primary hover:shadow-md transition-all">
-              <span className="text-2xl">{t.emoji}</span>
-              <span className="text-xs font-bold whitespace-nowrap">{t.name}</span>
-            </Link>
+          {themes.map((t, i) => (
+            <motion.div key={t.name} whileHover={{ scale: 1.08, rotate: 2 }} whileTap={{ scale: 0.95 }}>
+              <Link to={`/products?search=${encodeURIComponent(t.name)}`}
+                className="flex flex-col items-center gap-1 bg-card border border-border/50 rounded-2xl p-4 min-w-[90px] hover:border-primary hover:shadow-md transition-all">
+                <span className="text-3xl">{t.emoji}</span>
+                <span className="text-xs font-bold whitespace-nowrap">{t.name}</span>
+              </Link>
+            </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Playful Banner */}
+      <section className="container py-4">
+        <div className="bg-gradient-to-r from-info/10 via-primary/10 to-secondary/10 rounded-2xl p-5 flex items-center justify-between overflow-hidden relative">
+          <div>
+            <p className="font-display font-black text-lg md:text-xl">🧸 New Arrivals Every Week!</p>
+            <p className="text-xs text-muted-foreground mt-1">Fresh toys added constantly. Never miss out!</p>
+          </div>
+          <div className="text-5xl md:text-6xl opacity-30 absolute right-4 animate-float">🎪</div>
         </div>
       </section>
 
@@ -193,7 +236,11 @@ const Index = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {featured.slice(0, 4).map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
+          {featured.slice(0, 4).map((p, i) => (
+            <motion.div key={p.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+              <ProductCard product={p} onQuickView={setQuickViewProduct} />
+            </motion.div>
+          ))}
         </div>
       </section>
 
@@ -202,16 +249,21 @@ const Index = () => {
         <div className="container">
           <h2 className="font-display font-black text-xl md:text-2xl text-center mb-6">Shop by Brand 🏷️</h2>
           <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
-            {topBrands.map(b => (
-              <Link key={b.name} to={`/products?search=${encodeURIComponent(b.name)}`}
-                className="flex flex-col items-center gap-1 bg-card rounded-xl p-3 hover:shadow-md transition-shadow border border-border/30">
-                <span className="text-2xl">{b.emoji}</span>
-                <span className="text-[10px] md:text-xs font-bold text-center">{b.name}</span>
-              </Link>
+            {topBrands.map((b, i) => (
+              <motion.div key={b.name} whileHover={{ scale: 1.1, rotate: -3 }} whileTap={{ scale: 0.95 }}>
+                <Link to={`/products?search=${encodeURIComponent(b.name)}`}
+                  className="flex flex-col items-center gap-1 bg-card rounded-xl p-3 hover:shadow-md transition-shadow border border-border/30">
+                  <span className="text-2xl">{b.emoji}</span>
+                  <span className="text-[10px] md:text-xs font-bold text-center">{b.name}</span>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Trust Badges Full Section */}
+      <TrustBadges />
 
       {/* Deal Banner */}
       <section className="container py-6">
@@ -226,8 +278,8 @@ const Index = () => {
               </Button>
             </Link>
           </div>
-          <div className="absolute top-0 right-0 text-8xl opacity-10 rotate-12">🎁</div>
-          <div className="absolute bottom-0 left-4 text-6xl opacity-10 -rotate-12">🧸</div>
+          <div className="absolute top-0 right-0 text-8xl opacity-10 rotate-12 animate-float">🎁</div>
+          <div className="absolute bottom-0 left-4 text-6xl opacity-10 -rotate-12 animate-wiggle">🧸</div>
         </div>
       </section>
 
@@ -240,7 +292,11 @@ const Index = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {trending.slice(0, 4).map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
+          {trending.slice(0, 4).map((p, i) => (
+            <motion.div key={p.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+              <ProductCard product={p} onQuickView={setQuickViewProduct} />
+            </motion.div>
+          ))}
         </div>
       </section>
 
@@ -253,9 +309,16 @@ const Index = () => {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {bestsellers.slice(0, 4).map(p => <ProductCard key={p.id} product={p} onQuickView={setQuickViewProduct} />)}
+          {bestsellers.slice(0, 4).map((p, i) => (
+            <motion.div key={p.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+              <ProductCard product={p} onQuickView={setQuickViewProduct} />
+            </motion.div>
+          ))}
         </div>
       </section>
+
+      {/* Recently Viewed */}
+      <RecentlyViewed />
 
       {/* Testimonials */}
       <section className="bg-muted py-8">
@@ -264,7 +327,8 @@ const Index = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {testimonials.map((t, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-2xl p-5 shadow-sm border border-border/30">
+                whileHover={{ y: -4 }}
+                className="bg-card rounded-2xl p-5 shadow-sm border border-border/30 hover:shadow-md transition-shadow">
                 <div className="flex gap-0.5 mb-2">
                   {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={12} className="fill-primary text-primary" />)}
                 </div>
@@ -274,7 +338,10 @@ const Index = () => {
                     <div className="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center text-[10px] font-black text-primary">
                       {t.name.charAt(0)}
                     </div>
-                    <span className="font-bold text-sm">{t.name}</span>
+                    <div>
+                      <span className="font-bold text-sm">{t.name}</span>
+                      <span className="text-[9px] text-muted-foreground ml-1">{t.city}</span>
+                    </div>
                   </div>
                   <span className="text-[10px] text-success font-bold">✓ Verified</span>
                 </div>
@@ -286,14 +353,16 @@ const Index = () => {
 
       {/* Newsletter */}
       <section className="container py-8">
-        <div className="bg-primary rounded-2xl p-6 md:p-10 text-center">
-          <h2 className="font-display font-black text-xl md:text-3xl text-primary-foreground">Stay Updated! 📬</h2>
-          <p className="mt-1 text-primary-foreground/80 text-sm">Get notified about new arrivals, exclusive deals, and special offers.</p>
-          <form className="flex gap-2 max-w-md mx-auto mt-4" onSubmit={e => e.preventDefault()}>
+        <div className="bg-primary rounded-2xl p-6 md:p-10 text-center relative overflow-hidden">
+          <div className="absolute top-2 left-6 text-4xl opacity-20 animate-float">📬</div>
+          <div className="absolute bottom-2 right-6 text-4xl opacity-20 animate-wiggle">🎈</div>
+          <h2 className="font-display font-black text-xl md:text-3xl text-primary-foreground relative z-10">Stay Updated! 📬</h2>
+          <p className="mt-1 text-primary-foreground/80 text-sm relative z-10">Get notified about new arrivals, exclusive deals, and special offers.</p>
+          <form className="flex gap-2 max-w-md mx-auto mt-4 relative z-10" onSubmit={e => e.preventDefault()}>
             <Input placeholder="Enter your email" className="rounded-xl bg-card border-none flex-1" />
             <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold rounded-xl">Subscribe</Button>
           </form>
-          <p className="text-[10px] text-primary-foreground/50 mt-2">Join 10,000+ happy parents. Unsubscribe anytime.</p>
+          <p className="text-[10px] text-primary-foreground/50 mt-2 relative z-10">Join 10,000+ happy parents. Unsubscribe anytime.</p>
         </div>
       </section>
 

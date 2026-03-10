@@ -16,20 +16,21 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t shadow-lg md:hidden">
-      <div className="flex items-center justify-around h-14">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t shadow-lg md:hidden safe-area-bottom">
+      <div className="flex items-center justify-around h-16">
         {links.map(({ to, icon: Icon, label, badge }) => {
           const active = location.pathname === to;
           return (
             <Link key={to} to={to}
-              className={`flex flex-col items-center gap-0.5 text-xs font-semibold transition-colors relative ${active ? 'text-secondary' : 'text-muted-foreground'}`}>
-              <Icon size={20} />
+              className={`flex flex-col items-center gap-0.5 text-xs font-semibold transition-all relative min-w-[56px] py-1.5 ${active ? 'text-secondary scale-110' : 'text-muted-foreground active:scale-95'}`}>
+              <Icon size={22} strokeWidth={active ? 2.5 : 2} />
               {badge ? (
-                <span className="absolute -top-1 right-0 bg-secondary text-secondary-foreground text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-0.5 right-1 bg-secondary text-secondary-foreground text-[10px] font-bold w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-sm min-w-[18px] min-h-[18px]">
                   {badge}
                 </span>
               ) : null}
-              <span>{label}</span>
+              <span className="text-[10px]">{label}</span>
+              {active && <span className="absolute -bottom-0.5 w-5 h-0.5 bg-secondary rounded-full" />}
             </Link>
           );
         })}
