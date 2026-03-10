@@ -87,25 +87,52 @@ const ProductDetail = () => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-        {/* Images */}
+        {/* Images - Swipeable */}
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
           <div
-            className="bg-muted/50 rounded-2xl p-6 aspect-square flex items-center justify-center relative cursor-zoom-in overflow-hidden border border-border/50"
+            className="bg-muted/50 rounded-2xl p-6 aspect-square flex items-center justify-center relative cursor-zoom-in overflow-hidden border border-border/50 touch-pan-y"
             onClick={() => setZoomActive(!zoomActive)}
+            onTouchStart={(e) => {
+              const touch = e.touches[0];
+              (e.currentTarget as any)._touchStartX = touch.clientX;
+            }}
+            onTouchEnd={(e) => {
+              const startX = (e.currentTarget as any)._touchStartX;
+              const endX = e.changedTouches[0].clientX;
+              const diff = startX - endX;
+              if (Math.abs(diff) > 50) {
+                if (diff > 0 && selectedImage < product.images.length - 1) setSelectedImage(selectedImage + 1);
+                if (diff < 0 && selectedImage > 0) setSelectedImage(selectedImage - 1);
+              }
+            }}
           >
-            <motion.img
-              src={product.images[selectedImage]}
-              alt={product.name}
-              className="max-h-full object-contain"
-              animate={{ scale: zoomActive ? 1.5 : 1 }}
-              transition={{ duration: 0.3 }}
-            />
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={selectedImage}
+                src={product.images[selectedImage]}
+                alt={product.name}
+                className="max-h-full object-contain"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0, scale: zoomActive ? 1.5 : 1 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.25 }}
+                loading="lazy"
+              />
+            </AnimatePresence>
             {product.discount > 0 && (
               <span className="absolute top-3 left-3 bg-destructive text-destructive-foreground text-xs font-black px-2.5 py-1 rounded-lg">
                 {product.discount}% OFF
               </span>
             )}
-            <div className="absolute bottom-3 right-3 text-[10px] text-muted-foreground bg-card/80 px-2 py-0.5 rounded-full">
+            {/* Swipe indicator dots on mobile */}
+            {product.images.length > 1 && (
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden">
+                {product.images.map((_, i) => (
+                  <span key={i} className={`w-2 h-2 rounded-full transition-colors ${i === selectedImage ? 'bg-primary' : 'bg-muted-foreground/30'}`} />
+                ))}
+              </div>
+            )}
+            <div className="absolute bottom-3 right-3 text-[10px] text-muted-foreground bg-card/80 px-2 py-0.5 rounded-full hidden md:block">
               {zoomActive ? 'Click to zoom out' : 'Click to zoom in'} 🔍
             </div>
           </div>
@@ -114,7 +141,7 @@ const ProductDetail = () => {
             {product.images.map((img, i) => (
               <button key={i} onClick={() => setSelectedImage(i)}
                 className={`w-16 h-16 rounded-xl border-2 p-1 bg-muted/50 transition-all ${i === selectedImage ? 'border-primary shadow-md' : 'border-transparent hover:border-border'}`}>
-                <img src={img} alt="" className="w-full h-full object-contain" />
+                <img src={img} alt="" className="w-full h-full object-contain" loading="lazy" />
               </button>
             ))}
           </div>
