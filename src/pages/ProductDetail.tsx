@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Star, Heart, ShoppingCart, Truck, RotateCcw, ShieldCheck, Minus, Plus, ChevronRight, Eye, Share2, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,6 +7,9 @@ import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import ProductCard from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
+import BundleOffer from '@/components/BundleOffer';
+import TrustBadges from '@/components/TrustBadges';
+import StickyMobileCart from '@/components/StickyMobileCart';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
