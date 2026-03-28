@@ -136,41 +136,60 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Hero Bento Grid - FunCorp Style */}
+      {/* Hero Carousel - FunCorp Style */}
       <section className="container py-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-          {/* Main Hero Banner */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="md:col-span-2 md:row-span-2 bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 md:p-10 relative overflow-hidden flex flex-col justify-center min-h-[280px] md:min-h-[400px]"
-          >
-            <span className="inline-block bg-card/20 text-primary-foreground text-xs font-bold px-3 py-1 rounded-full mb-3 w-fit animate-sparkle">
-              🎈 India's #1 Toy Store
-            </span>
-            <h1 className="font-display font-black text-3xl md:text-5xl text-primary-foreground leading-tight">
-              Where Every Toy<br />Sparks <span className="text-secondary">Joy!</span> ✨
-            </h1>
-            <p className="mt-3 text-primary-foreground/80 text-sm md:text-base max-w-md">
-              Discover 100+ amazing toys for kids aged 0-18. Safe, fun & educational. Up to 45% OFF!
-            </p>
-            <div className="flex gap-3 mt-5">
-              <Link to="/products">
-                <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold rounded-xl text-base shadow-lg">
-                  Shop Now <ArrowRight size={18} />
-                </Button>
-              </Link>
+          {/* Main Hero Carousel */}
+          <div className="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden min-h-[280px] md:min-h-[400px]">
+            <div ref={emblaRef} className="overflow-hidden h-full rounded-2xl">
+              <div className="flex h-full">
+                {heroSlides.map((slide, i) => (
+                  <div key={i} className="flex-[0_0_100%] min-w-0">
+                    <div className={`bg-gradient-to-br ${slide.bg} p-6 md:p-10 relative overflow-hidden flex flex-col justify-center h-full min-h-[280px] md:min-h-[400px]`}>
+                      <span className={`inline-block bg-card/20 ${slide.textColor} text-xs font-bold px-3 py-1 rounded-full mb-3 w-fit`}>
+                        {slide.badge}
+                      </span>
+                      <h2 className={`font-display font-black text-3xl md:text-5xl ${slide.textColor} leading-tight`}>
+                        {slide.title}
+                      </h2>
+                      <p className={`mt-3 ${slide.textColor}/80 text-sm md:text-base max-w-md`}>
+                        {slide.desc}
+                      </p>
+                      <div className="flex gap-3 mt-5">
+                        <Link to={slide.link}>
+                          <Button size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold rounded-xl text-base shadow-lg">
+                            {slide.cta} <ArrowRight size={18} />
+                          </Button>
+                        </Link>
+                      </div>
+                      <div className="absolute top-4 right-4 text-7xl md:text-9xl opacity-20 animate-float">{slide.floatEmoji}</div>
+                      <div className="absolute bottom-4 right-20 text-5xl md:text-7xl opacity-15 animate-wiggle">{slide.wiggleEmoji}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="absolute top-4 right-4 text-7xl md:text-9xl opacity-20 animate-float">🧸</div>
-            <div className="absolute bottom-4 right-20 text-5xl md:text-7xl opacity-15 animate-wiggle">🎮</div>
-          </motion.div>
+
+            {/* Nav arrows */}
+            <button onClick={() => emblaApi?.scrollPrev()} className="absolute left-2 top-1/2 -translate-y-1/2 bg-card/80 backdrop-blur-sm hover:bg-card text-foreground rounded-full w-9 h-9 flex items-center justify-center shadow-lg transition-colors z-10">
+              <ChevronLeft size={20} />
+            </button>
+            <button onClick={() => emblaApi?.scrollNext()} className="absolute right-2 top-1/2 -translate-y-1/2 bg-card/80 backdrop-blur-sm hover:bg-card text-foreground rounded-full w-9 h-9 flex items-center justify-center shadow-lg transition-colors z-10">
+              <ChevronRight size={20} />
+            </button>
+
+            {/* Dots */}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+              {heroSlides.map((_, i) => (
+                <button key={i} onClick={() => emblaApi?.scrollTo(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${selectedSlide === i ? 'w-6 bg-secondary' : 'w-2 bg-card/50'}`}
+                />
+              ))}
+            </div>
+          </div>
 
           {/* Side Banner 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-          >
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
             <Link to="/products?tag=trending"
               className="block bg-gradient-to-br from-secondary to-secondary/80 rounded-2xl p-5 relative overflow-hidden min-h-[120px] md:min-h-[190px] hover:scale-[1.02] transition-transform">
               <h3 className="font-display font-black text-lg md:text-xl text-secondary-foreground">🔥 Trending Now</h3>
@@ -183,11 +202,7 @@ const Index = () => {
           </motion.div>
 
           {/* Side Banner 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
             <Link to="/products?search=STEM"
               className="block bg-gradient-to-br from-accent to-accent/80 rounded-2xl p-5 relative overflow-hidden min-h-[120px] md:min-h-[190px] hover:scale-[1.02] transition-transform">
               <h3 className="font-display font-black text-lg md:text-xl text-accent-foreground">🔬 STEM Toys</h3>
