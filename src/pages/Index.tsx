@@ -50,12 +50,74 @@ const testimonials = [
   { name: 'Vikram R.', text: 'Amazing RC car and super fast delivery. Will shop again!', rating: 5, city: 'Chennai' },
 ];
 
+const heroSlides = [
+  {
+    badge: '🎈 India\'s #1 Toy Store',
+    title: <>Where Every Toy<br />Sparks <span className="text-secondary">Joy!</span> ✨</>,
+    desc: 'Discover 100+ amazing toys for kids aged 0-18. Safe, fun & educational. Up to 45% OFF!',
+    cta: 'Shop Now',
+    link: '/products',
+    bg: 'from-primary to-primary/80',
+    textColor: 'text-primary-foreground',
+    floatEmoji: '🧸',
+    wiggleEmoji: '🎮',
+  },
+  {
+    badge: '🔥 Hot Deal',
+    title: <>Mega Toy Sale<br /><span className="text-secondary">Up to 60% OFF</span> 🎉</>,
+    desc: 'Grab the best deals on trending toys. Limited time only — shop before stock runs out!',
+    cta: 'Grab Deals',
+    link: '/products?tag=trending',
+    bg: 'from-secondary to-secondary/80',
+    textColor: 'text-secondary-foreground',
+    floatEmoji: '🚀',
+    wiggleEmoji: '🎯',
+  },
+  {
+    badge: '🔬 Learn & Play',
+    title: <>STEM Toys That<br />Make Kids <span className="text-secondary">Smarter</span> 🧠</>,
+    desc: 'Robotics kits, science experiments & brain games. The perfect gift for curious minds.',
+    cta: 'Explore STEM',
+    link: '/products?search=STEM',
+    bg: 'from-accent to-accent/80',
+    textColor: 'text-accent-foreground',
+    floatEmoji: '🤖',
+    wiggleEmoji: '🔬',
+  },
+  {
+    badge: '🎁 Birthday Special',
+    title: <>Free Gift Wrapping<br />On Orders <span className="text-secondary">₹999+</span> 🎂</>,
+    desc: 'Make birthdays magical! Premium gift wrapping included free on all orders above ₹999.',
+    cta: 'Shop Gifts',
+    link: '/products',
+    bg: 'from-primary/90 to-accent/70',
+    textColor: 'text-primary-foreground',
+    floatEmoji: '🎁',
+    wiggleEmoji: '🎂',
+  },
+];
+
 const Index = () => {
   const featured = products.filter(p => p.tags.includes('featured'));
   const trending = products.filter(p => p.tags.includes('trending'));
   const bestsellers = products.filter(p => p.tags.includes('bestseller'));
   const deals = products.filter(p => p.discount >= 40);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000, stopOnInteraction: false })]);
+  const [selectedSlide, setSelectedSlide] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedSlide(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => { emblaApi.off('select', onSelect); };
+  }, [emblaApi, onSelect]);
 
   return (
     <div className="pb-4">
