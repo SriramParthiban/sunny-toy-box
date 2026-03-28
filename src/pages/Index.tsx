@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, Truck, ShieldCheck, ChevronRight, Search, CreditCard, RotateCcw, Users, Award, Sparkles } from 'lucide-react';
+import { ArrowRight, Star, Truck, ShieldCheck, ChevronRight, Search, CreditCard, RotateCcw, Users, Award, Sparkles, ChevronLeft } from 'lucide-react';
 import { products, popularSearches, themes, Product } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import QuickViewModal from '@/components/QuickViewModal';
@@ -9,6 +9,8 @@ import TrustBadges from '@/components/TrustBadges';
 import RecentlyViewed from '@/components/RecentlyViewed';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 const ageCategories = [
   { range: '0-5', label: '0-5 Years', emoji: '🍼', desc: 'Babies & Toddlers', illustration: '🧸' },
